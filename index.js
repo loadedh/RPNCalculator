@@ -1,105 +1,53 @@
 
 function rpn (...inputs) {
-    return calculate(inputs);
+    let arr2 = [];
+    return calculate(inputs, arr2);
 }
 
 
-function calculate(inputs) {
-    let arrayLoop = inputs;
-    const firstElement = arrayLoop.shift();
+function calculate(inputs, arr2) {
+    let arrayOfInputs = inputs;
+    const firstElementInArray = arrayOfInputs.shift();
 
-    if (Number.isFinite(firstElement)) {
-        arrayLoop.push(firstElement);
-    } else {
-        const number2 = arrayLoop.pop(), number1 = arrayLoop.pop();
-        const operator = firstElement;
+    if (Number.isFinite(firstElementInArray)) {
+        arrayOfInputs.push(firstElementInArray);
+        // console.log(arr2);
+    } else if (operators.includes(firstElementInArray)) {
+        const number2 = arrayOfInputs.pop(), number1 = arrayOfInputs.pop();
+        let operator = firstElementInArray;
+
 
         if (operator === '+') {
-            arrayLoop.push(number1 + number2);
+            arr2.push(number1 + number2);
         } else if (operator === '-') {
-            arrayLoop.push(number1 - number2);
+            arr2.push(number1 - number2);
         } else if (operator === '/') {
-            arrayLoop.push(number1 / number2);
+            arr2.push(number1 / number2);
         } else if (operator === '*') {
-            arrayLoop.push(number1 * number2);
+            arr2.push(number1 * number2);
         }
+    } else {
+        throw "Argument was of an invalid type"
     }
 
-    if (arrayLoop.length >= 3) {
-        return calculate(inputs);
-    } else if (arrayLoop.length === 2) {
+
+    if (arrayOfInputs.length > 0) {    //fuck this off
+        return calculate(inputs, arr2);        //If the array contains no operators then return our inputs as they are
+    } else if (arrayOfInputs.length === 2) {
         console.log("There is one too many values/operators")
-        return arrayLoop.pop();
+        return arr2.pop();
     } else {
-        return arrayLoop.pop();
+        return arr2.pop();
     }
 }
+
+const operators = ['+', '-', '/', '*'];
 
 module.exports = rpn;
 
-//
-// const calculations = {
-//
-// };
-//
-//
-// const myMethods = {
-//       '+'(a) {
-//           return b => a + b;
-//       },
-//     '-'(a, b) {
-//         return a - b;
-//     },
-//     '/'(a, b) {
-//         return a / b;
-//     },
-//    '*'(a, b) {
-//         return a * b;
-//     },
-// };
-//
-// const myMethods = new Map([
-//    ['*', mult],
-// ]);
-//
-// myMethods.get('*');
-//
-// const withA = myMethods[operator](a);
-// a(b) === a + b;
-
-
-
-// const withA = myMethods[operator](a);
-// a(b) === a + b;
-
-// let calculation = (input) => {
-//     let result = 0;
-//
-//     let arLoop = () => {
-//         let inputArgs = input, values = [], i;
-//         i = inputArgs.shift();
-//
-//         if (isFinite(inputArgs[i])) {
-//             values.push(inputArgs[i])
-//         } else {
-//             let number1 = values.pop(), number2 = values.pop();
-//
-//             //Check what operator was used and apply the correct formula
-//             if (inputArgs[i] === "+") {
-//                 result = number1 + number2;
-//             } else if (inputArgs[i] === "-") {
-//                 result = number1 - number2;
-//             } else if (inputArgs[i] === "*") {
-//                 result = number1 * number2;
-//             } else if (inputArgs[i] === "/") {
-//                 result = number1 / number2;
-//             }
-//         } if (values.length > 1) {
-//             return arLoop();
-//         } else if (isNaN(result) || result === "undefined") {
-//             console.log("Ohh you fucked up!")
-//         } else {
-//             return result;
-//         }
-//     }
-// };
+// if (!operators.includes(arrayOfInputs)) {
+//     return;
+// }
+// if (inputs.contains(!operators)) {
+//     return;
+// }
