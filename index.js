@@ -1,44 +1,39 @@
 
-function rpn (number1, number2, operator) {
-    let result;
-    // let inputArr = inputs;
-
-    if (operator === '+') {
-        result = number1 + number2
-    } else if (operator === '-') {
-        result = number1 - number2
-    } else if (operator === '/') {
-        result = number1 / number2
-    } else if (operator === '*') {
-        result = number1 * number2
-    }
-
-
-    // function recursion() {
-    //     let shiftThroughInputs = inputArr.shift();
-    //
-    // }
-
-    return result;
+function rpn (...inputs) {
+    return calculate(inputs);
 }
 
 
-//
-// function calculate(inputs, result) {
-//
-//
-//     if (operator === '+') {
-//         result = number1 + number2
-//     } else if (operator === '-') {
-//         result = number1 - number2
-//     } else if (operator === '/') {
-//         result = number1 / number2
-//     } else if (operator === '*') {
-//         result = number1 * number2
-//     }
-//
-//     return result;
-// }
+function calculate(inputs) {
+    let arrayLoop = inputs;
+    const firstElement = arrayLoop.shift();
+
+    if (Number.isFinite(firstElement)) {
+        arrayLoop.push(firstElement);
+    } else {
+        const number2 = arrayLoop.pop(), number1 = arrayLoop.pop();
+        const operator = firstElement;
+
+        if (operator === '+') {
+            arrayLoop.push(number1 + number2);
+        } else if (operator === '-') {
+            arrayLoop.push(number1 - number2);
+        } else if (operator === '/') {
+            arrayLoop.push(number1 / number2);
+        } else if (operator === '*') {
+            arrayLoop.push(number1 * number2);
+        }
+    }
+
+    if (arrayLoop.length >= 3) {
+        return calculate(inputs);
+    } else if (arrayLoop.length === 2) {
+        console.log("There is one too many values/operators")
+        return arrayLoop.pop();
+    } else {
+        return arrayLoop.pop();
+    }
+}
 
 module.exports = rpn;
 
